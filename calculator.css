@@ -1,52 +1,98 @@
-body {
- background-color: rgb(61, 198, 68);
+@import url(https://fonts.googleapis.com/css?family=Audiowide);
+
+:root {
+    --unpressedShadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
-/*
+
+body {
+    font-family: 'Audiowide'; 
+    font-weight: bolder;
+    font-size: 1.5rem;
+    background: white; 
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.flexContainer {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .gridContainer {
     width: 80%;
-    background-color:orange;
+    background-color:lightsteelblue;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 1rem;
-    padding:1rem;
+    padding:2rem;
     margin:auto;
+    box-shadow: 7px 10px 34px 1px rgba(0, 0, 0, 0.68), inset -1px -6px 12px 0.1px 	#303030;
+    border-radius: 2rem;
 }
 
 .btn {
-    background-color:pink;
+    background-color:beige;
+    box-shadow: var(--unpressedShadow);
+    border-radius: .5rem;
+    display:flex;
+    justify-content: center;
 }
 
 .btn p{
-    background-color:rgb(82, 144, 199);
+    background-color:transparent;
+    padding:.25rem;
 }
 
 .calcDisplay {
-    grid-column: 1/5;
+    grid-column: 1/4;
     grid-row:1/2;
+    justify-content: right;
+    padding-right: 2rem;
+    border-radius: 0rem;
+    background-color: white;
+
 }
 
 .clear {
-    grid-column: 1/4;
+    grid-column: 4/5;
+    grid-row:1/2;
+    background-color: darkred;
+    color:white;
+}
+
+.seven {
+    grid-column: 1/2;
     grid-row:2/3;
 }
 
-.sign {
+.eight {
+    grid-column: 2/3;
+    grid-row:2/3;
+}
+
+.nine {
+    grid-column: 3/4;
+    grid-row:2/3;
+}
+
+.divide {
     grid-column: 4/5;
     grid-row:2/3;
 }
 
-.one {
+.four {
     grid-column: 1/2;
     grid-row:3/4;
 }
 
-.two {
+.five {
     grid-column: 2/3;
     grid-row:3/4;
 }
 
-.three {
+.six {
     grid-column: 3/4;
     grid-row:3/4;
 }
@@ -56,37 +102,37 @@ body {
     grid-row:3/4;
 }
 
-.four {
+.one {
     grid-column: 1/2;
     grid-row:4/5;
 }
 
-.five {
+.two {
     grid-column: 2/3;
     grid-row:4/5;
 }
 
-.six {
+.three {
     grid-column: 3/4;
     grid-row:4/5;
 }
 
-.divide {
+.subtract {
     grid-column: 4/5;
     grid-row:4/5;
 }
 
-.seven {
+.zero {
     grid-column: 1/2;
     grid-row:5/6;
 }
 
-.eight {
+.decimal {
     grid-column: 2/3;
     grid-row:5/6;
 }
 
-.nine {
+.sign {
     grid-column: 3/4;
     grid-row:5/6;
 }
@@ -96,23 +142,9 @@ body {
     grid-row:5/6;
 }
 
-.zero {
-    grid-column: 1/2;
-    grid-row:6/7;
-}
-
-.decimal {
-    grid-column: 2/3;
-    grid-row:6/7;
-}
-
 .equals {
-    grid-column: 3/4;
+    grid-column: 1/5;
     grid-row:6/7;
+    color:white;
+    background-color:rgba(255, 166, 0, 0.925)
 }
-
-.subtract {
-    grid-column: 4/5;
-    grid-row:6/7;
-}
-*/
