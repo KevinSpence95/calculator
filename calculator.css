@@ -1,0 +1,118 @@
+body {
+ background-color: rgb(61, 198, 68);
+}
+/*
+.gridContainer {
+    width: 80%;
+    background-color:orange;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    padding:1rem;
+    margin:auto;
+}
+
+.btn {
+    background-color:pink;
+}
+
+.btn p{
+    background-color:rgb(82, 144, 199);
+}
+
+.calcDisplay {
+    grid-column: 1/5;
+    grid-row:1/2;
+}
+
+.clear {
+    grid-column: 1/4;
+    grid-row:2/3;
+}
+
+.sign {
+    grid-column: 4/5;
+    grid-row:2/3;
+}
+
+.one {
+    grid-column: 1/2;
+    grid-row:3/4;
+}
+
+.two {
+    grid-column: 2/3;
+    grid-row:3/4;
+}
+
+.three {
+    grid-column: 3/4;
+    grid-row:3/4;
+}
+
+.multiply {
+    grid-column: 4/5;
+    grid-row:3/4;
+}
+
+.four {
+    grid-column: 1/2;
+    grid-row:4/5;
+}
+
+.five {
+    grid-column: 2/3;
+    grid-row:4/5;
+}
+
+.six {
+    grid-column: 3/4;
+    grid-row:4/5;
+}
+
+.divide {
+    grid-column: 4/5;
+    grid-row:4/5;
+}
+
+.seven {
+    grid-column: 1/2;
+    grid-row:5/6;
+}
+
+.eight {
+    grid-column: 2/3;
+    grid-row:5/6;
+}
+
+.nine {
+    grid-column: 3/4;
+    grid-row:5/6;
+}
+
+.add {
+    grid-column: 4/5;
+    grid-row:5/6;
+}
+
+.zero {
+    grid-column: 1/2;
+    grid-row:6/7;
+}
+
+.decimal {
+    grid-column: 2/3;
+    grid-row:6/7;
+}
+
+.equals {
+    grid-column: 3/4;
+    grid-row:6/7;
+}
+
+.subtract {
+    grid-column: 4/5;
+    grid-row:6/7;
+}
+*/
