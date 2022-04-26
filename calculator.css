@@ -2,62 +2,70 @@
 
 :root {
     --unpressedShadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    --pressedShadow: rgba(50, 50, 93, 0.25) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
 body {
     font-family: 'Audiowide'; 
     font-weight: bolder;
     font-size: 1.5rem;
-    background: white; 
-    background-repeat: no-repeat;
-    background-size: cover;
+    margin:0rem;
+    background-color: burlywood;
 }
 
 .flexContainer {
     display:flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    padding:1rem;
+    
 }
 
 .gridContainer {
-    width: 80%;
+    width:80%;
     background-color:lightsteelblue;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 1rem;
+    gap: .5rem .5rem;;
     padding:2rem;
-    margin:auto;
     box-shadow: 7px 10px 34px 1px rgba(0, 0, 0, 0.68), inset -1px -6px 12px 0.1px 	#303030;
     border-radius: 2rem;
 }
 
 .btn {
     background-color:beige;
-    box-shadow: var(--unpressedShadow);
-    border-radius: .5rem;
+    border-radius: 5rem;
     display:flex;
     justify-content: center;
+    align-items: center;
+    box-shadow: var(--unpressedShadow);
+    
+}
+.btn:active {
+    box-shadow: var(--pressedShadow);
 }
 
 .btn p{
-    background-color:transparent;
-    padding:.25rem;
+    
 }
 
 .calcDisplay {
-    grid-column: 1/4;
+    grid-column: 1/5;
     grid-row:1/2;
-    justify-content: right;
+    display:flex;
+    justify-content: flex-end;
     padding-right: 2rem;
     border-radius: 0rem;
     background-color: white;
-
+    box-shadow: var(--unpressedShadow);
+    font-size: larger;
+    letter-spacing: 1.3;
 }
 
 .clear {
     grid-column: 4/5;
-    grid-row:1/2;
+    grid-row:6/7;
     background-color: darkred;
     color:white;
 }
@@ -143,7 +151,7 @@ body {
 }
 
 .equals {
-    grid-column: 1/5;
+    grid-column: 1/4;
     grid-row:6/7;
     color:white;
     background-color:rgba(255, 166, 0, 0.925)
