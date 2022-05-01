@@ -24,20 +24,19 @@ let operatorPresent = false;
 const maxVal = 9999999999;
 const minVal = -9999999999;
 let savedOP;
+let lastEqualsSolve;
+//let wasEqualsLast;
 let calcDisplay = document.querySelector(".calcDisplay p");
 
 const zeroThruNine = ["0","1","2","3","4","5","6","7","8","9"];
 const oneThruNine = ["1","2","3","4","5","6","7","8","9"];
-const operators = ['/','*','-','+']
+const operators = ['/','*','-','+'];
 
 function display(str) { 
     calcDisplay.textContent = str;
 }
 
-// console.log(convertToNumber(2) + convertToNumber(.5) + convertToNumber("-2") + convertToNumber("-.5") + convertToNumber([1,0,0, ".", "5"]) + convertToNumber(["-","1","0","0",".","5"]));
-
-function pushToInputArr(char) {
-    
+function processInput(char) {
     if (firstOperand === false && secondOperand === false) {
         if (char === '') {toggleSign()}
         if (char === '.') {
@@ -53,7 +52,15 @@ function pushToInputArr(char) {
             firstOperandArr = [...equationArr];
             display(firstOperandArr.join(""));
         }
-        
+        if (char === '-') {
+            //address this case toggleSign()?
+        }
+        if (operators.includes(char) && calcDisplay.nodeValue !== "0") {  
+            equationArr = lastEqualsSolve.split("");
+            firstOperandArr = [...equationArr];
+            firstOperand = true;
+            equationArr.push(char);
+        }        
     } 
     else if (firstOperand === true && secondOperand === false) {
         if (zeroThruNine.includes(char)) {
@@ -115,35 +122,27 @@ function pushToInputArr(char) {
             displayResult(true); 
         }
     }
-
 }
 
 function displayResult(newOp) {
     if (newOp) {
-        let nextOP = equationArr.pop();
+        let nextOp = equationArr.pop();
         let result;
-        if (firstOperand && secondOperand) {
-        result = eval(equationArr.join("")).toString();
-        }
-        if (secondOperand === false) {
-        result = firstOperandArr.join("");
-        }
+        if (firstOperand && secondOperand) {result = eval(equationArr.join("")).toString()}
+        if (secondOperand === false) {result = firstOperandArr.join("")}
         display(result);
         clear(false);
         firstOperandArr = result.split("");
         firstOperand = true;
         equationArr = result.split("");
-        equationArr.push(nextOP);
+        equationArr.push(nextOp);
     }
     else {
         let result;
-        if (firstOperand && secondOperand) {
-            result = eval(equationArr.join("")).toString();
-        }
-        if (secondOperand === false) {
-            result = firstOperandArr.join("");
-        }
+        if (firstOperand && secondOperand) {result = eval(equationArr.join("")).toString()}
+        if (secondOperand === false) {result = firstOperandArr.join("")}
         display(result);
+        lastEqualsSolve = result;
         clear(false);
     }
 }
@@ -161,57 +160,59 @@ function clear(displayZero) {
 function toggleSign(){
     //multiply current operand displayed by -1 and redispay it
     //shift "-" to the beginning of the equationArray (if the second operand doesnt exist yet)
-    //if the second operand does exist, insert "-" after the operator
+    //if the second operand does exist, insert "-" after the operator in the equationArr and onto the beginning of secondOperand
 }
 
 
+//BUG: After hitting = I cannot then proceed to hit an operator and use that value;
+
 $(".seven").click(function(){
-    pushToInputArr('7');
+    processInput('7');
 });
 $(".eight").click(function(){
-    pushToInputArr('8');
+    processInput('8');
 });
 $(".nine").click(function(){
-    pushToInputArr('9');
+    processInput('9');
 });
 $(".divide").click(function(){
-    pushToInputArr('/');
+    processInput('/');
 });
 $(".four").click(function(){
-    pushToInputArr('4');
+    processInput('4');
 });
 $(".five").click(function(){
-    pushToInputArr('5');
+    processInput('5');
 });
 $(".six").click(function(){
-    pushToInputArr('6');
+    processInput('6');
 });
 $(".multiply").click(function(){
-    pushToInputArr('*');
+    processInput('*');
 });
 $(".one").click(function(){
-    pushToInputArr('1');
+    processInput('1');
 });
 $(".two").click(function(){
-    pushToInputArr('2');
+    processInput('2');
 });
 $(".three").click(function(){
-    pushToInputArr('3');
+    processInput('3');
 });
 $(".subtract").click(function(){
-    pushToInputArr('-');
+    processInput('-');
 });
 $(".zero").click(function(){
-    pushToInputArr('0');
+    processInput('0');
 });
 $(".decimal").click(function(){
-    pushToInputArr('.');
+    processInput('.');
 });
 $(".sign").click(function(){
-    pushToInputArr('');
+    processInput('');
 });
 $(".add").click(function(){
-    pushToInputArr('+');
+    processInput('+');
 });
 $(".equals").click(function(){
     displayResult(false);
