@@ -21,11 +21,8 @@ let firstOperandArr = [];
 let secondOperand = false;
 let secondOperandArr = [];
 let operatorPresent = false;
-const maxVal = 9999999999;
-const minVal = -9999999999;
 let savedOP;
 let lastEqualsSolve;
-//let wasEqualsLast;
 let calcDisplay = document.querySelector(".calcDisplay p");
 
 const zeroThruNine = ["0","1","2","3","4","5","6","7","8","9"];
@@ -37,16 +34,17 @@ function display(str) {
 }
 
 function processInput(char) {
-    if (firstOperand === false && secondOperand === false) {
+
+    if (firstOperand === false && secondOperand === false) { //initial condition where niether operand exists (although 0 is displayed by default)
         if (char === '') {toggleSign()}
-        if (char === '.') {
+        if (char === '.') { //if "." is pressed, push "0" then "." to the equationArr and firstOperandArr, display firstOperandArr
             equationArr.push('0');
             equationArr.push('.');
             firstOperand = true;
             firstOperandArr = [...equationArr];
             display(firstOperandArr.join(""));
         }
-        if (oneThruNine.includes(char)) {
+        if (oneThruNine.includes(char)) { //if zero is pressed do nothing since it is already displayed initially, if "1-9" is pressed, push the value to the equationArr and firstOperandArr, display firstOperandArr
             equationArr.push(char)
             firstOperand = true;
             firstOperandArr = [...equationArr];
@@ -55,30 +53,43 @@ function processInput(char) {
         if (char === '-') {
             //address this case toggleSign()?
         }
-        if (operators.includes(char) && calcDisplay.nodeValue !== "0") {  
+        if (operators.includes(char) && calcDisplay.nodeValue !== "0") {  //allows us to use the previous result from hitting the = button if the next key that is pressed is an operator
             equationArr = lastEqualsSolve.split("");
             firstOperandArr = [...equationArr];
             firstOperand = true;
             equationArr.push(char);
         }        
     } 
-    else if (firstOperand === true && secondOperand === false) {
-        if (zeroThruNine.includes(char)) {
-            equationArr.push(char);
-            firstOperandArr = [...equationArr];
+
+    else if (firstOperand === true && secondOperand === false) { //once the firstOperator exists (a "." or a "1-9" has been pressed, or if the firstOperand has been set to the lastResult, this condition will fire on the next processInput
+        if (zeroThruNine.includes(char)) { // FIX
+            if (operatorPresent) {
+                equationArr.push(char);
+                secondOperand = true;
+                secondOperandArr.push(char);
+                display(secondOperandArr.join(""));
+            }
+            else {
+                equationArr.push(char);    
+                firstOperandArr = [...equationArr];
+            }
+            
+            // before
+            // equationArr.push(char);    
+            // firstOperandArr = [...equationArr];
         }
         if (char === '') {toggleSign()}
         if (char === '.') {
-            if (equationArr.indexOf('.') === -1 && operatorPresent === false) {
-                equationArr.push(char);
-                firstOperandArr = [...equationArr];
-            }
-            else if (operatorPresent) {
+            if (operatorPresent) {
                 equationArr.push('0');
                 equationArr.push('.');
                 secondOperandArr = [...equationArr].slice(-2);
                 secondOperand = true;
                 display(secondOperandArr.join(""));
+            }
+            else if (!firstOperandArr.includes('.') && operatorPresent === false) {
+                equationArr.push(char);
+                firstOperandArr = [...equationArr];
             }
         }
         if (operators.includes(char)) {
@@ -95,7 +106,7 @@ function processInput(char) {
         if (operators.includes(equationArr[equationArr.length-2])) {
             secondOperand = true;
             secondOperandArr = equationArr.slice(-1);
-            display(secondOperandArr.join(""))
+            display(secondOperandArr.join(""));
         }
 
         if (secondOperand === false) {
@@ -103,14 +114,21 @@ function processInput(char) {
         }
         
     }
+
     else if (firstOperand === true && secondOperand === true) {
-        if (zeroThruNine.includes(char)) {
-            equationArr.push(char);
-            secondOperandArr.push(char);
+        if (zeroThruNine.includes(char)) { //FIX
+            if ((secondOperandArr[0] === '0' && secondOperandArr.length === 1) || (secondOperandArr[0] === '-' && secondOperandArr[1] === '0' && secondOperandArr.length === 2)) {
+                equationArr[equationArr.length-1] = char;
+                secondOperandArr[secondOperandArr.length-1] = char;
+            }
+            else {
+                equationArr.push(char);
+                secondOperandArr.push(char);
+            }
             display(secondOperandArr.join(""));
         }
         if (char === '') {toggleSign()}
-        if (char === '.') {
+        if (char === '.') {    
           if (!secondOperandArr.includes(".")) {
             equationArr.push(char);
             secondOperandArr.push(char);
@@ -163,8 +181,8 @@ function toggleSign(){
     //if the second operand does exist, insert "-" after the operator in the equationArr and onto the beginning of secondOperand
 }
 
-
-//BUG: After hitting = I cannot then proceed to hit an operator and use that value;
+//BUG: am able to enter multiple zeros in a row immediated after an operator, which breaks things
+// if zero is pressed first after an operator, any successive value (0-9) will replace the zero, if "." is pressed thats ok 
 
 $(".seven").click(function(){
     processInput('7');
