@@ -35,7 +35,7 @@ function display(str) {
 function processInput(char) {
 
     if (firstOperand === false && secondOperand === false) { //initial condition where niether operand exists (although 0 is displayed by default)
-        if (char === '') {toggleSign()}
+        if (char === '$') {toggleSign()}
         if (char === '.') { //if "." is pressed, push "0" then "." to the equationArr and firstOperandArr, display firstOperandArr
             equationArr.push('0');
             equationArr.push('.');
@@ -49,10 +49,16 @@ function processInput(char) {
             firstOperandArr = [...equationArr];
             display(firstOperandArr.join(""));
         }
-        if (char === '-') {
-            //address this case toggleSign()?
+        if (char === '$' || char  === '-') {//******* */ BUG (-) doesnt work on initial display of 0 or whatever value is displayed on =
+            //address this case where minus sign is used as a negative sign initially, toggleSign()?
+            // equationArr.unshift("-");
+            // firstOperandArr.unshift("-");
+            // display(firstOperandArr.join(""));
+            // if(firstOperandArr.length === 1) {display(firstOperandArr.join("").concat('0'))}
+            // if (calcDisplay.childNodes[0].nodeValue === "0") {display('- 8')} 
+            // else if (calcDisplay.childNodes[0].nodeValue === "-0") {display("0")}
         }
-        if (operators.includes(char) && calcDisplay.nodeValue !== "0") {  //allows us to use the previous result from hitting the = button if the next key pressed is an operator
+        if (operators.includes(char) && calcDisplay.childNodes[0].nodeValue !== "0") {  //allows us to use the previous result from hitting the = button if the next key pressed is an operator
             equationArr = lastEqualsSolve.split("");
             firstOperandArr = [...equationArr];
             firstOperand = true;
@@ -73,7 +79,20 @@ function processInput(char) {
                 firstOperandArr = [...equationArr];
             }
         }
-        if (char === '') {toggleSign()}
+        if (char === '$') { //******* */
+            if (equationArr[0] !== '-') {
+                equationArr.unshift("-");
+                //alert(`${equationArr}`)
+                firstOperandArr.unshift("-");
+                display(firstOperandArr.join(""));
+            }
+            else if (equationArr[0] === '-') {
+                equationArr.shift();
+                firstOperandArr.shift();
+                display(firstOperandArr.join(""));
+                //alert('removed -')
+            }
+        }
         if (char === '.') {
             if (operatorPresent) {
                 equationArr.push('0');
@@ -98,10 +117,12 @@ function processInput(char) {
             operatorPresent = true;
         }
 
-        if (operators.includes(equationArr[equationArr.length-2])) {
+        if (operators.includes(equationArr[equationArr.length-2])) { //test
+            if(!firstOperandArr.includes('-')) {
             secondOperand = true;
             secondOperandArr = equationArr.slice(-1);
             display(secondOperandArr.join(""));
+            }
         }
 
         if (secondOperand === false) {
@@ -122,7 +143,22 @@ function processInput(char) {
             }
             display(secondOperandArr.join(""));
         }
-        if (char === '') {toggleSign()}
+        if (char === '$') {  //******* */
+            if (secondOperandArr[0] !== '-') {
+                //insert '-' into equation array after operator
+                let indexOfOperator = firstOperandArr.length;
+                equationArr = equationArr.slice(0,indexOfOperator+1).concat('-').concat(equationArr.slice(indexOfOperator+1));
+                secondOperandArr.unshift("-");
+                display(secondOperandArr.join(""));
+            }
+            else if (secondOperandArr[0] === '-') {
+                //remove the '-' from the equationArr after operator
+                let indexOfOp = firstOperandArr.length;
+                equationArr = equationArr.slice(0,indexOfOp+1).concat(equationArr.slice(indexOfOp+2))
+                secondOperandArr.shift();
+                display(secondOperandArr.join(""));
+            }
+        }
         if (char === '.') {    
           if (!secondOperandArr.includes(".")) {
             equationArr.push(char);
@@ -152,7 +188,7 @@ function displayResult(newOp) {
     }
     else {
         let result;
-        if (firstOperand && secondOperand) {result = eval(equationArr.join("")).toString()}
+        if (firstOperand && secondOperand) {result = eval(equationArr.join("")).toString()}  
         if (firstOperand && !secondOperand) {result = firstOperandArr.join("")}
         if (!firstOperand && !secondOperand) {result = lastEqualsSolve}
         lastEqualsSolve = result;
@@ -171,12 +207,7 @@ function clear(displayZero) {
     if (displayZero) {display('0')}
 }
 
-function toggleSign(){
-    //multiply current operand displayed by -1 and redispay it
-    //shift "-" to the beginning of the equationArray (if the second operand doesnt exist yet)
-    //if the second operand does exist, insert "-" after the operator in the equationArr and onto the beginning of secondOperand
-} 
-
+//alert(`1st: ${firstOperand} 2nd: ${secondOperand} NodeValue: ${calcDisplay.childNodes[0].nodeValue}`);
 $(".seven").click(function(){
     processInput('7');
 });
@@ -220,7 +251,7 @@ $(".decimal").click(function(){
     processInput('.');
 });
 $(".sign").click(function(){
-    processInput('');
+    processInput('$');
 });
 $(".add").click(function(){
     processInput('+');
