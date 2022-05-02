@@ -1,4 +1,3 @@
-//minimize input length to 10, if answer > 9,999,999,999 or < -9,99,999,999 display ERROR
 //cant press zero or an operator first (upon load or after a clear), this only goes for the first operand
 //if two operators are pressed in a row the most recent replaces the previous in the equation array
 //cant have more than one decimal in either operand
@@ -8,12 +7,12 @@
 //if (-) is pressed after an operator and a second operand has been declared (1-9 or .) (NOT 0)
 //if equals is pressed after inputing a number just display that number
 
-//hitting = solves the equation array, or evaluates a single operand as itself
+//hitting = solves the equation array, or evaluates a single operand as itself, or recalls the last result if = pressed repeatedly
 //hitting any operator after an operator and 2 operands have been input into the equation array should evaluate the expression and set it to the value of the first operand
 
-//clear will empty the equation display and set the display to 0
+//clear will empty the equation display and (optionally) set the display to 0
 
-//get rid of any unneccessary 0's (e.g 056 is just 56)
+//get rid of any unneccessary 0's in both operands (e.g 056 is just 56)
 
 let equationArr = [];
 let firstOperand = false;
@@ -53,7 +52,7 @@ function processInput(char) {
         if (char === '-') {
             //address this case toggleSign()?
         }
-        if (operators.includes(char) && calcDisplay.nodeValue !== "0") {  //allows us to use the previous result from hitting the = button if the next key that is pressed is an operator
+        if (operators.includes(char) && calcDisplay.nodeValue !== "0") {  //allows us to use the previous result from hitting the = button if the next key pressed is an operator
             equationArr = lastEqualsSolve.split("");
             firstOperandArr = [...equationArr];
             firstOperand = true;
@@ -62,7 +61,7 @@ function processInput(char) {
     } 
 
     else if (firstOperand === true && secondOperand === false) { //once the firstOperator exists (a "." or a "1-9" has been pressed, or if the firstOperand has been set to the lastResult, this condition will fire on the next processInput
-        if (zeroThruNine.includes(char)) { // FIX
+        if (zeroThruNine.includes(char)) {
             if (operatorPresent) {
                 equationArr.push(char);
                 secondOperand = true;
@@ -73,10 +72,6 @@ function processInput(char) {
                 equationArr.push(char);    
                 firstOperandArr = [...equationArr];
             }
-            
-            // before
-            // equationArr.push(char);    
-            // firstOperandArr = [...equationArr];
         }
         if (char === '') {toggleSign()}
         if (char === '.') {
@@ -116,7 +111,7 @@ function processInput(char) {
     }
 
     else if (firstOperand === true && secondOperand === true) {
-        if (zeroThruNine.includes(char)) { //FIX
+        if (zeroThruNine.includes(char)) {
             if ((secondOperandArr[0] === '0' && secondOperandArr.length === 1) || (secondOperandArr[0] === '-' && secondOperandArr[1] === '0' && secondOperandArr.length === 2)) {
                 equationArr[equationArr.length-1] = char;
                 secondOperandArr[secondOperandArr.length-1] = char;
@@ -158,9 +153,10 @@ function displayResult(newOp) {
     else {
         let result;
         if (firstOperand && secondOperand) {result = eval(equationArr.join("")).toString()}
-        if (secondOperand === false) {result = firstOperandArr.join("")}
-        display(result);
+        if (firstOperand && !secondOperand) {result = firstOperandArr.join("")}
+        if (!firstOperand && !secondOperand) {result = lastEqualsSolve}
         lastEqualsSolve = result;
+        display(result);
         clear(false);
     }
 }
@@ -179,10 +175,7 @@ function toggleSign(){
     //multiply current operand displayed by -1 and redispay it
     //shift "-" to the beginning of the equationArray (if the second operand doesnt exist yet)
     //if the second operand does exist, insert "-" after the operator in the equationArr and onto the beginning of secondOperand
-}
-
-//BUG: am able to enter multiple zeros in a row immediated after an operator, which breaks things
-// if zero is pressed first after an operator, any successive value (0-9) will replace the zero, if "." is pressed thats ok 
+} 
 
 $(".seven").click(function(){
     processInput('7');
