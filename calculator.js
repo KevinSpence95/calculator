@@ -14,9 +14,6 @@
 
 //get rid of any unneccessary 0's in both operands (e.g 056 is just 56)
 
-
-
-
 let equationArr = [];
 let firstOperand = false;
 let firstOperandArr = [];
@@ -56,8 +53,10 @@ function display(str) {
 }
 
 function processInput(char) {
-
-    if (firstOperand === false && secondOperand === false) { //initial condition where niether operand exists (although 0 is displayed by default)
+    if(firstOperandArr.length > 11 || secondOperandArr.length >11) { //limit input size
+        return;
+    }
+    if (!firstOperand && !secondOperand) { //initial condition where niether operand exists (although 0 is displayed by default)
         if (char === '.') { //if "." is pressed, push "0" then "." to the equationArr and firstOperandArr, display firstOperandArr
             equationArr.push('0');
             equationArr.push('.');
@@ -72,14 +71,14 @@ function processInput(char) {
             display(firstOperandArr.join(""));
         }
         else if (char === '$') {
-            if (lastEqualsSolve !== '0' && lastEqualsSolve > 0) {
+            if (lastEqualsSolve !== '0' && parseFloat(lastEqualsSolve) > 0) {
                 lastEqualsSolve = '-'.concat(lastEqualsSolve);
                 firstOperand = true;
                 firstOperandArr = lastEqualsSolve.split('');
                 equationArr = [...firstOperandArr]
                 display(firstOperandArr.join(''));
             }
-            else if (lastEqualsSolve !== '0' && lastEqualsSolve < 0) {
+            else if (lastEqualsSolve !== '0' && parseFloat(lastEqualsSolve) < 0) {
                 lastEqualsSolve = lastEqualsSolve.slice(1);
                 firstOperand = true;
                 firstOperandArr = lastEqualsSolve.split('');
@@ -96,8 +95,7 @@ function processInput(char) {
         }      
     } 
 
-    else if (firstOperand === true && secondOperand === false) { //once the firstOperator exists (a "." or a "1-9" has been pressed, or if the firstOperand has been set to the lastResult, this condition will fire on the next processInput
-        
+    else if (firstOperand && !secondOperand) { //once the firstOperator exists (a "." or a "1-9" has been pressed, or if the firstOperand has been set to the lastResult, this condition will fire on the next processInput
         if (zeroThruNine.includes(char)) {
             if (operatorPresent) { 
                 equationArr.push(char);
@@ -158,7 +156,7 @@ function processInput(char) {
         }
     }
 
-    else if (firstOperand === true && secondOperand === true) {
+    else if (firstOperand && secondOperand) {
         if (zeroThruNine.includes(char)) {
             if ((secondOperandArr[0] === '0' && secondOperandArr.length === 1) || (secondOperandArr[0] === '-' && secondOperandArr[1] === '0' && secondOperandArr.length === 2)) {
                 equationArr[equationArr.length-1] = char;
@@ -196,7 +194,7 @@ function processInput(char) {
             displayResult(true); 
         }
     }
-    //statusUpdate();  
+    statusUpdate();  
 }
 
 function displayResult(newOp) {
