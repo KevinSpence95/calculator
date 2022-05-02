@@ -63,7 +63,7 @@ body {
     align-items: center;
     padding-right: 2rem;
     border-radius: 0rem;
-    background-color: white;
+    background-color: rgb(235, 218, 189);
     box-shadow: var(--unpressedShadow);
     font-size: 2rem;
     letter-spacing: 1.3;

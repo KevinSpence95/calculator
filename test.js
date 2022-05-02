@@ -22,6 +22,14 @@
 //     console.log('yep')
 // }
 
-const operators = ['/','*','-','+'];
-let equationArr = ['-'];
-console.log(equationArr.join(''));
+const nums = ['-','1','2','-','-','1','2'];
+console.log(eval(nums.join("")));
+
+// let equationArr = ['-'];
+// console.log(equationArr.join(''));
+
+// let test ='hello';
+// test= '-'.concat(test);
+// console.log(test)
+// test = test.slice(1)
+// console.log(test)
