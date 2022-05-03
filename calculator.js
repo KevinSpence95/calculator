@@ -28,37 +28,68 @@ const zeroThruNine = ["0","1","2","3","4","5","6","7","8","9"];
 const oneThruNine = ["1","2","3","4","5","6","7","8","9"];
 const operators = ['/','*','-','+'];
 
-function statusUpdate() {
-    alert(
-    `        equationArr:  [${equationArr}]
-
-     firstOperand exists:  ${firstOperand}
-         firstOperandArr:  [${firstOperandArr}]
-
-    secondOperand exists:  ${secondOperand}
-        secondOperandArr:  [${secondOperandArr}]
-
-        operator Present?  ${operatorPresent}
-    `);
-}
-
-function convertToNumber(input) {
-    if(typeof input === "number") {return input}
-    if(typeof input === "string") {return input.indexOf(".") === -1 ? parseInt(input) : parseFloat(input)}
-    if(typeof input === "object" && input.length !== "undefined"){return input.indexOf(".") === -1 ? parseInt(input.join("")) : parseFloat(input.join(""))}
-}
-
-function display(str) { 
-    calcDisplay.textContent = str.substring(0,12); //.substring will limit the outputs only (to 12 digits) since the inputs can only be 10 digits as defined below
-}
+$(".seven").click(function(){
+    processInput('7');
+});
+$(".eight").click(function(){
+    processInput('8');
+});
+$(".nine").click(function(){
+    processInput('9');
+});
+$(".divide").click(function(){
+    processInput('/');
+});
+$(".four").click(function(){
+    processInput('4');
+});
+$(".five").click(function(){
+    processInput('5');
+});
+$(".six").click(function(){
+    processInput('6');
+});
+$(".multiply").click(function(){
+    processInput('*');
+});
+$(".one").click(function(){
+    processInput('1');
+});
+$(".two").click(function(){
+    processInput('2');
+});
+$(".three").click(function(){
+    processInput('3');
+});
+$(".subtract").click(function(){
+    processInput('-');
+});
+$(".zero").click(function(){
+    processInput('0');
+});
+$(".decimal").click(function(){
+    processInput('.');
+});
+$(".sign").click(function(){
+    processInput('$');
+});
+$(".add").click(function(){
+    processInput('+');
+});
+$(".equals").click(function(){
+    displayResult(false);
+});
+$(".clear").click(function(){
+    clear(true);
+});
 
 function processInput(char) {
-    //************************* Limiting Input to 10 Digits for each operand*/
+    //*** Limiting Input to 10 Digits for each operand***/
     if (firstOperand && !secondOperand) {
-        if (firstOperandArr.length>9 && !operators.includes(char) && !operatorPresent) {alert('nope');return}
+        if (firstOperandArr.length>9 && !operators.includes(char) && !operatorPresent) {return}
     }
     else if (firstOperand && secondOperand) {
-        if (secondOperandArr.length>9 && !operators.includes(char)) {alert('nope2');return}
+        if (secondOperandArr.length>9 && !operators.includes(char)) {return}
     }
     //************************* */
     
@@ -253,57 +284,27 @@ function clear(displayZero) {
     }
 }
 
-$(".seven").click(function(){
-    processInput('7');
-});
-$(".eight").click(function(){
-    processInput('8');
-});
-$(".nine").click(function(){
-    processInput('9');
-});
-$(".divide").click(function(){
-    processInput('/');
-});
-$(".four").click(function(){
-    processInput('4');
-});
-$(".five").click(function(){
-    processInput('5');
-});
-$(".six").click(function(){
-    processInput('6');
-});
-$(".multiply").click(function(){
-    processInput('*');
-});
-$(".one").click(function(){
-    processInput('1');
-});
-$(".two").click(function(){
-    processInput('2');
-});
-$(".three").click(function(){
-    processInput('3');
-});
-$(".subtract").click(function(){
-    processInput('-');
-});
-$(".zero").click(function(){
-    processInput('0');
-});
-$(".decimal").click(function(){
-    processInput('.');
-});
-$(".sign").click(function(){
-    processInput('$');
-});
-$(".add").click(function(){
-    processInput('+');
-});
-$(".equals").click(function(){
-    displayResult(false);
-});
-$(".clear").click(function(){
-    clear(true);
-});
+function convertToNumber(input) {
+    if(typeof input === "number") {return input}
+    if(typeof input === "string") {return input.indexOf(".") === -1 ? parseInt(input) : parseFloat(input)}
+    if(typeof input === "object" && input.length !== "undefined"){return input.indexOf(".") === -1 ? parseInt(input.join("")) : parseFloat(input.join(""))}
+}
+
+function display(str) { 
+    calcDisplay.textContent = str.substring(0,12); //.substring will limit the outputs only (to 12 digits) since the inputs can only be 10 digits as defined below
+}
+
+// function statusUpdate() {
+//     alert(
+//     `        equationArr:  [${equationArr}]
+
+//      firstOperand exists:  ${firstOperand}
+//          firstOperandArr:  [${firstOperandArr}]
+
+//     secondOperand exists:  ${secondOperand}
+//         secondOperandArr:  [${secondOperandArr}]
+
+//         operator Present?  ${operatorPresent}
+//     `);
+// }
+
