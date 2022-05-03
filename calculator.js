@@ -49,13 +49,19 @@ function convertToNumber(input) {
 }
 
 function display(str) { 
-    calcDisplay.textContent = str;
+    calcDisplay.textContent = str.substring(0,12); //.substring will limit the outputs only (to 12 digits) since the inputs can only be 10 digits as defined below
 }
 
 function processInput(char) {
-    if(firstOperandArr.length > 11 || secondOperandArr.length >11) { //limit input size
-        return;
+    //************************* Limiting Input to 10 Digits for each operand*/
+    if (firstOperand && !secondOperand) {
+        if (firstOperandArr.length>9 && !operators.includes(char) && !operatorPresent) {alert('nope');return}
     }
+    else if (firstOperand && secondOperand) {
+        if (secondOperandArr.length>9 && !operators.includes(char)) {alert('nope2');return}
+    }
+    //************************* */
+    
     if (!firstOperand && !secondOperand) { //initial condition where niether operand exists (although 0 is displayed by default)
         if (char === '.') { //if "." is pressed, push "0" then "." to the equationArr and firstOperandArr, display firstOperandArr
             equationArr.push('0');
@@ -86,6 +92,7 @@ function processInput(char) {
                 display(firstOperandArr.join(''));
             }
         }
+
         if (operators.includes(char) && calcDisplay.childNodes[0].nodeValue !== "0") {  //allows us to use the previous result from hitting the = button if the next key pressed is an operator
             equationArr = lastEqualsSolve.split("");
             firstOperandArr = [...equationArr];
@@ -194,7 +201,7 @@ function processInput(char) {
             displayResult(true); 
         }
     }
-    statusUpdate();  
+    //statusUpdate();  
 }
 
 function displayResult(newOp) {
@@ -203,11 +210,12 @@ function displayResult(newOp) {
         let nextOp = equationArr.pop();
         if (firstOperand && secondOperand) {
             if (equationArr[firstOperandArr.length] === '-') {
-                result = convertToNumber(firstOperandArr) - convertToNumber(secondOperandArr);
+                result = (convertToNumber(firstOperandArr) - convertToNumber(secondOperandArr)).toString();
+                
             }
-            else {result = eval(equationArr.join("")).toString()}
+            else {result = eval(equationArr.join("")).toString().substring(0,12)} //*** maybe need substring here to limit digits in result */
         }
-        if (secondOperand === false) {result = firstOperandArr.join("")}
+        if (!secondOperand) {result = firstOperandArr.join("")}
         display(result);
         clear(false);
         firstOperandArr = result.split("");
@@ -219,9 +227,9 @@ function displayResult(newOp) {
     else {  
         if (firstOperand && secondOperand) {
             if (equationArr[firstOperandArr.length] === '-') {
-                result = convertToNumber(firstOperandArr) - convertToNumber(secondOperandArr);
+                result = (convertToNumber(firstOperandArr) - convertToNumber(secondOperandArr)).toString();
             }
-            else {result = eval(equationArr.join("")).toString()}
+            else {result = eval(equationArr.join("")).toString().substring(0,12)} //*** maybe need substring here to limit digits in result */
         }  
         if (firstOperand && !secondOperand) {result = firstOperandArr.join("")}
         if (!firstOperand && !secondOperand) {result = lastEqualsSolve}
@@ -229,6 +237,7 @@ function displayResult(newOp) {
         display(result);
         clear(false);
     }
+    //statusUpdate();
 }
 
 function clear(displayZero) {
